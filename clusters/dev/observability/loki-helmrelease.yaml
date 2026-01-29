@@ -20,10 +20,12 @@ spec:
         namespace: flux-system
       interval: 1h
   values:
+    # Disable caches for a smaller, simpler lab
     chunksCache:
       enabled: false
     resultsCache:
       enabled: false
+
     loki:
       auth_enabled: false
 
@@ -40,7 +42,6 @@ spec:
               prefix: loki_index_
               period: 24h
 
-      # Chart currently expects bucket names; MinIO will create/use these.
       storage:
         bucketNames:
           chunks: loki-chunks
@@ -57,7 +58,6 @@ spec:
       ruler:
         enable_api: true
 
-    # In-cluster S3-compatible storage for the lab
     minio:
       enabled: true
 
