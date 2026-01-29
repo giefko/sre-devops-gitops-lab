@@ -20,6 +20,10 @@ spec:
         namespace: flux-system
       interval: 1h
   values:
+    chunksCache:
+      enabled: false
+    resultsCache:
+      enabled: false
     loki:
       auth_enabled: false
 
