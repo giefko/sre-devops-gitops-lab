@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: caddy
+  namespace: monitoring
+spec:
+  namespaceSelector:
+    matchNames:
+      - apps
+  selector:
+    matchLabels:
+      app: caddy
+  endpoints:
+    - port: admin
+      path: /metrics
+      interval: 15s
