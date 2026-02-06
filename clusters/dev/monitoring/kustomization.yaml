@@ -3,6 +3,4 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - helmrepository.yaml
-  - grafana-admin-secret.yaml
   - helmrelease.yaml
-  - caddy-servicemonitor.yaml
