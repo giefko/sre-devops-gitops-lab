@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: caddy
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caddy
+  template:
+    metadata:
+      labels:
+        app: caddy
+    spec:
+      containers:
+        - name: caddy
+          image: caddy:2.8.4
+          ports:
+            - name: http
+              containerPort: 80
+          volumeMounts:
+            - name: webroot
+              mountPath: /usr/share/caddy
+      volumes:
+        - name: webroot
+          configMap:
+            name: caddy-index
