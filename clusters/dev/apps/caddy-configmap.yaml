@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: caddy-config
+  namespace: apps
+data:
+  Caddyfile: |
+    {
+      admin 0.0.0.0:2019
+    }
+
+    :80 {
+      respond "Hello from GitOps Caddy 🚀" 200
+    }
