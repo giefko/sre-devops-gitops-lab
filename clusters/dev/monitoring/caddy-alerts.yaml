@@ -3,6 +3,8 @@ kind: PrometheusRule
 metadata:
   name: caddy-blackbox-alerts
   namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
 spec:
   groups:
     - name: caddy-blackbox.rules
