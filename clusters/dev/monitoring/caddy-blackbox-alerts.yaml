@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: caddy-blackbox-alerts
+  namespace: monitoring
+spec:
+  groups:
+    - name: caddy-blackbox
+      rules:
+        - alert: CaddyDown
+          expr: probe_success{job="blackbox"} == 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Caddy is DOWN"
+            description: "Blackbox probe failed for Caddy webserver."
