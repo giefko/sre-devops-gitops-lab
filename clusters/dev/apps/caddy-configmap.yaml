@@ -5,11 +5,6 @@ metadata:
   namespace: apps
 data:
   Caddyfile: |
-    {
-      admin 0.0.0.0:2019
-      metrics
-    }
-
     :80 {
       root * /usr/share/caddy
       file_server
