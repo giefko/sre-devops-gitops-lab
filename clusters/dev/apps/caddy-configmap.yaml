@@ -11,5 +11,6 @@ data:
     }
 
     :80 {
-      respond "Hello from GitOps Caddy 🚀" 200
+      root * /usr/share/caddy
+      file_server
     }
