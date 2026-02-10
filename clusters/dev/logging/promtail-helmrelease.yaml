@@ -1,0 +1,19 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: promtail
+  namespace: logging
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: promtail
+      version: "6.16.6"
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: logging
+  values:
+    config:
+      clients:
+        - url: http://loki-gateway.logging.svc.cluster.local/loki/api/v1/push
