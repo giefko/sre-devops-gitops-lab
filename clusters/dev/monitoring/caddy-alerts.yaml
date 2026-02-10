@@ -10,10 +10,10 @@ spec:
     - name: caddy-blackbox.rules
       rules:
         - alert: CaddyDown
-          expr: probe_success == 0
-          for: 1m
+          expr: min_over_time(probe_success{instance="http://caddy.apps.svc.cluster.local"}[2m]) == 0
+          for: 0m
           labels:
             severity: critical
           annotations:
             summary: "Caddy is DOWN"
-            description: "Blackbox probe failed for Caddy for more than 1 minute."
+            description: "Blackbox probe to Caddy has failed at least once in the last 2 minutes."
