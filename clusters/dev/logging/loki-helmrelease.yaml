@@ -39,6 +39,16 @@ spec:
         size: 10Gi
         storageClass: local-path
 
+    # Small lab mode: disable caches/canary/gateway
+    chunksCache:
+      enabled: false
+    resultsCache:
+      enabled: false
+    lokiCanary:
+      enabled: false
+    gateway:
+      enabled: false
+
     # Disable distributed pieces for a small lab
     read:
       replicas: 0
@@ -46,6 +56,3 @@ spec:
       replicas: 0
     backend:
       replicas: 0
-
-    gateway:
-      enabled: true
