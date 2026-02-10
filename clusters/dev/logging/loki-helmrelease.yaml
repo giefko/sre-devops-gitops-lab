@@ -39,6 +39,10 @@ spec:
         size: 10Gi
         storageClass: local-path
 
+    # ✅ Disable Helm tests (chart complains if canary is disabled)
+    test:
+      enabled: false
+
     # Small lab mode: disable caches/canary/gateway
     chunksCache:
       enabled: false
