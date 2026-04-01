@@ -1,0 +1,55 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: sre-warning-alerts
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: sre-warning.rules
+      rules:
+        - alert: HighCPUUsageWarning
+          expr: 100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[5m]))) > 75
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High CPU usage"
+            description: "Cluster average CPU usage is above 75% for more than 5 minutes."
+
+        - alert: HighMemoryUsageWarning
+          expr: 100 * (1 - (sum(node_memory_MemAvailable_bytes) / sum(node_memory_MemTotal_bytes))) > 80
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High memory usage"
+            description: "Cluster memory usage is above 80% for more than 5 minutes."
+
+        - alert: LowDiskSpaceWarning
+          expr: 100 * (1 - (sum(node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"}) / sum(node_filesystem_size_bytes{fstype!~"tmpfs|overlay"}))) > 85
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Low disk space"
+            description: "Disk usage is above 85% for more than 10 minutes."
+
+        - alert: PodCrashLoopingWarning
+          expr: sum(max_over_time(kube_pod_container_status_waiting_reason{reason="CrashLoopBackOff"}[5m])) > 0
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Pod in CrashLoopBackOff"
+            description: "At least one pod is in CrashLoopBackOff."
+
+        - alert: CaddySlowResponseWarning
+          expr: 1000 * avg(probe_duration_seconds{instance="http://caddy.apps.svc.cluster.local"}) > 500
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Caddy response is slow"
+            description: "Caddy probe duration is above 500ms for more than 2 minutes."

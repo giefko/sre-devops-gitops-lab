@@ -9,3 +9,4 @@ resources:
   - blackbox-deploy.yaml
   - caddy-blackbox-servicemonitor.yaml
   - caddy-alerts.yaml
+  - warning-alerts.yaml
