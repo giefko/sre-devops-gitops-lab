@@ -1,127 +1,143 @@
-# sre-devops-gitops-lab
+🚀 sre-devops-gitops-lab
 
+A complete SRE / DevOps / Platform Engineering lab to learn and practice:
 
-A hands-on **SRE / DevOps / Platform Engineering lab** built to learn and practice:
+GitOps with Flux CD
+Kubernetes
+Helm
+Prometheus + Grafana
+Alertmanager
+Blackbox Exporter
+Loki + Promtail (logging)
+SOPS + age (secrets encryption)
 
-- **GitOps** with Flux CD
-- **Kubernetes**
-- **Helm**
-- **Prometheus**
-- **Grafana**
-- **Alertmanager**
-- **Blackbox Exporter**
-- **Loki**
-- **Promtail**
-- **Secrets management** with SOPS + age
-- and later: **Ansible**, **Ingress**, **SLOs**, **Tracing**, and more
+🧠 What is this project?
 
-This project is designed as a **step-by-step lab** for people who want practical experience with the tools and workflows often used in real SRE / DevOps roles.
+This repository is a step-by-step hands-on lab that builds a real-world SRE platform locally.
 
----
+You will learn how to:
 
-## Table of Contents
+Deploy applications using GitOps
+Monitor systems using metrics
+Create and test alerts
+Collect and explore logs
+Debug failures like a real SRE
 
-- [1. What is this lab?](#1-what-is-this-lab)
-- [2. Who is this for?](#2-who-is-this-for)
-- [3. Learning goals](#3-learning-goals)
-- [4. Final architecture](#4-final-architecture)
-- [5. What you will build](#5-what-you-will-build)
-- [6. Supported host systems](#6-supported-host-systems)
-- [7. Prerequisites](#7-prerequisites)
-- [8. High-level setup flow](#8-high-level-setup-flow)
-- [9. Repository structure](#9-repository-structure)
-- [10. Step-by-step roadmap](#10-step-by-step-roadmap)
-- [11. Accessing the services](#11-accessing-the-services)
-- [12. Health checks](#12-health-checks)
-- [13. What is already implemented](#13-what-is-already-implemented)
-- [14. Future improvements](#14-future-improvements)
-- [15. Troubleshooting notes](#15-troubleshooting-notes)
+👉 This is not just setup — it’s a complete learning environment.
 
----
+🏗 Architecture
 
-## 1. What is this lab?
-
-This repository is a **practical SRE/DevOps training environment**.
-
-It starts from a local virtual machine and builds up a small but realistic platform using Kubernetes and GitOps. The idea is not only to deploy tools, but to understand how they work together:
-
-- applications
-- monitoring
-- alerting
-- logging
-- secrets
-- GitOps workflows
-
-This is meant to be a **learning playground**, not a production deployment.
-
----
-
-## 2. Who is this for?
-
-This lab is useful for:
-
-- people preparing for **SRE roles**
-- junior or mid-level **DevOps engineers**
-- platform engineers learning **GitOps**
-- anyone wanting a home lab for:
-  - Kubernetes
-  - observability
-  - alerts
-  - logs
-  - troubleshooting
-
----
-
-## 3. Learning goals
-
-By working through this lab, you will learn how to:
-
-- create and operate a Kubernetes lab
-- structure a GitOps repository
-- deploy workloads using **Flux CD**
-- install applications using **Helm**
-- expose and test a sample service
-- collect and visualize **metrics**
-- define and test **alerts**
-- collect and query **logs**
-- store secrets safely in Git using **SOPS**
-- debug failures end-to-end
-
----
-
-## 4. Final architecture
-
-```text
                          +----------------------+
                          |      GitHub Repo     |
-                         |  sre-devops-gitops   |
+                         | sre-devops-gitops    |
                          +----------+-----------+
                                     |
-                                    | GitOps sync
+                                    | GitOps Sync
                                     v
                            +-------------------+
                            |      Flux CD      |
-                           | GitRepository     |
-                           | Kustomizations    |
-                           | HelmReleases      |
                            +---------+---------+
                                      |
                                      v
-                     +-----------------------------------+
-                     |        Kubernetes Cluster         |
-                     |                                   |
-                     |  apps namespace                   |
-                     |   - Caddy                         |
-                     |                                   |
-                     |  monitoring namespace             |
-                     |   - Prometheus                    |
-                     |   - Grafana                       |
-                     |   - Alertmanager                  |
-                     |   - Blackbox Exporter             |
-                     |   - kube-state-metrics            |
-                     |   - node-exporter                 |
-                     |                                   |
-                     |  logging namespace                |
-                     |   - Loki                          |
-                     |   - Promtail                      |
-                     +-----------------------------------+
+        +--------------------------------------------------+
+        |              Kubernetes Cluster                  |
+        |--------------------------------------------------|
+        |                                                  |
+        |  apps namespace                                  |
+        |   └── Caddy (web app)                           |
+        |                                                  |
+        |  monitoring namespace                            |
+        |   ├── Prometheus (metrics)                      |
+        |   ├── Grafana (dashboards)                      |
+        |   ├── Alertmanager (alerts)                     |
+        |   ├── Blackbox Exporter (HTTP probes)           |
+        |   └── Node/K8s metrics                          |
+        |                                                  |
+        |  logging namespace                               |
+        |   ├── Loki (log storage)                        |
+        |   └── Promtail (log collector)                  |
+        +--------------------------------------------------+
+
+             Metrics        Logs         Alerts
+           (Prometheus)   (Loki)    (Alertmanager)
+                  \           |           /
+                   \          |          /
+                    \         ▼         /
+                     +----------------+
+                     |    Grafana     |
+                     +----------------+
+
+🎯 What you will build
+✅ Health Checks
+
+Cluster:
+
+kubectl get nodes
+kubectl get pods -A
+
+Flux:
+
+flux get sources git -A
+flux get kustomizations -A
+flux get helmreleases -A
+
+Monitoring:
+
+curl localhost:9090/-/ready
+
+Logging:
+
+curl localhost:3100/ready
+
+Quick check:
+
+kubectl get pods -A | grep -v Running
+🧪 What is implemented
+Kubernetes cluster
+GitOps (Flux CD)
+Caddy application
+Prometheus monitoring
+Grafana dashboards
+Alertmanager alerts
+Blackbox checks
+Loki logging
+Promtail log collection
+SOPS encrypted secrets
+🎓 What you learn
+GitOps workflows
+Kubernetes operations
+Observability (metrics + logs)
+Alerting
+Debugging failures
+
+🔮 Future Improvements
+Ingress + domains
+TLS
+Slack / PagerDuty alerts
+CI/CD pipeline
+SLO dashboards
+Distributed tracing
+
+🛑 Troubleshooting
+
+Port-forward issue:
+
+kubectl port-forward --address 0.0.0.0 ...
+
+Flux issues:
+
+flux get kustomizations -A
+kubectl -n flux-system logs deploy/kustomize-controller
+
+⭐ Final Note
+
+This lab simulates a real SRE environment.
+
+You now have:
+
+GitOps deployment
+Monitoring
+Alerting
+Logging
+
+👉 This is the core of modern DevOps & SRE platforms.
