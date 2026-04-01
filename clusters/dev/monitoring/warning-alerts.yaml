@@ -17,7 +17,7 @@ spec:
             severity: warning
           annotations:
             summary: "High CPU usage"
-            description: "Cluster average CPU usage is above 75% for more than 5 minutes."
+            description: "Cluster CPU usage > 75%"
 
         - alert: HighMemoryUsageWarning
           expr: 100 * (1 - (sum(node_memory_MemAvailable_bytes) / sum(node_memory_MemTotal_bytes))) > 80
@@ -26,7 +26,7 @@ spec:
             severity: warning
           annotations:
             summary: "High memory usage"
-            description: "Cluster memory usage is above 80% for more than 5 minutes."
+            description: "Cluster memory usage > 80%"
 
         - alert: LowDiskSpaceWarning
           expr: 100 * (1 - (sum(node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"}) / sum(node_filesystem_size_bytes{fstype!~"tmpfs|overlay"}))) > 85
@@ -35,7 +35,7 @@ spec:
             severity: warning
           annotations:
             summary: "Low disk space"
-            description: "Disk usage is above 85% for more than 10 minutes."
+            description: "Disk usage > 85%"
 
         - alert: PodCrashLoopingWarning
           expr: sum(max_over_time(kube_pod_container_status_waiting_reason{reason="CrashLoopBackOff"}[5m])) > 0
@@ -43,8 +43,8 @@ spec:
           labels:
             severity: warning
           annotations:
-            summary: "Pod in CrashLoopBackOff"
-            description: "At least one pod is in CrashLoopBackOff."
+            summary: "Pod CrashLoop"
+            description: "Pod is in CrashLoopBackOff"
 
         - alert: CaddySlowResponseWarning
           expr: 1000 * avg(probe_duration_seconds{instance="http://caddy.apps.svc.cluster.local"}) > 500
@@ -52,5 +52,5 @@ spec:
           labels:
             severity: warning
           annotations:
-            summary: "Caddy response is slow"
-            description: "Caddy probe duration is above 500ms for more than 2 minutes."
+            summary: "Caddy slow response"
+            description: "Caddy response > 500ms"
