@@ -1,5 +1,5 @@
 # sre-devops-gitops-lab
-# sre-devops-gitops-lab
+
 
 A hands-on **SRE / DevOps / Platform Engineering lab** built to learn and practice:
 
