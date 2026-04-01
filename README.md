@@ -13,7 +13,7 @@ SOPS + age (secrets encryption)
 
 🧠 What is this project?
 
-This repository is a step-by-step hands-on lab that builds a real-world SRE platform locally.
+This repository is a hands-on lab that builds a real-world SRE platform locally.
 
 You will learn how to:
 
