@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: caddy-checker
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caddy-checker
+  template:
+    metadata:
+      labels:
+        app: caddy-checker
+    spec:
+      containers:
+        - name: caddy-checker
+          image: caddy-checker:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: CHECK_URL
+              value: "http://caddy.apps.svc.cluster.local"
+            - name: CHECK_INTERVAL
+              value: "30"
+            - name: TIMEOUT
+              value: "5"
