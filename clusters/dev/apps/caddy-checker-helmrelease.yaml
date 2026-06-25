@@ -1,0 +1,24 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: caddy-checker
+  namespace: apps
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: ./charts/caddy-checker
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    replicaCount: 1
+    image:
+      repository: caddy-checker
+      tag: latest
+      pullPolicy: IfNotPresent
+    env:
+      CHECK_URL: "http://caddy.apps.svc.cluster.local"
+      CHECK_INTERVAL: "30"
+      TIMEOUT: "5"
