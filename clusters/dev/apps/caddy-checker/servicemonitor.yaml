@@ -5,7 +5,10 @@ metadata:
   namespace: monitoring
   labels:
     release: kube-prometheus-stack
+    app.kubernetes.io/instance: kube-prometheus-stack
+    app.kubernetes.io/part-of: kube-prometheus-stack
 spec:
+  jobLabel: app
   namespaceSelector:
     matchNames:
       - apps
